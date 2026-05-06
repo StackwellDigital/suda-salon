@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suda Salon · Chilliwack, BC</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --cream: #faf7f2;
+    --warm-white: #ffffff;
+    --blush: #e8c4b4;
+    --terracotta: #c4724a;
+    --terracotta-dark: #9e5535;
+    --sage: #8fa88e;
+    --charcoal: #2a2420;
+    --mid: #6b5e58;
+    --light: #b5a89e;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--charcoal);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.8rem 4rem;
+    background: var(--cream);
+    border-bottom: 1px solid rgba(42,36,32,0.08);
+    transition: padding 0.3s;
+  }
+  nav.scrolled { padding: 1.2rem 4rem; }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: var(--charcoal);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+  }
+  .nav-logo span { color: var(--terracotta); }
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--mid);
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 400;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--terracotta); }
+  .nav-btn {
+    background: var(--terracotta);
+    color: white !important;
+    padding: 0.65rem 1.6rem;
+    border-radius: 2px;
+    font-weight: 500 !important;
+  }
+  .nav-btn:hover { background: var(--terracotta-dark) !important; color: white !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    padding-top: 80px;
+  }
+  .hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 6rem 4rem 6rem 5rem;
+    position: relative;
+  }
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: var(--blush);
+    color: var(--terracotta-dark);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.72rem;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    width: fit-content;
+    opacity: 0;
+    animation: slideIn 0.8s 0.2s forwards;
+  }
+  .hero-tag::before { content: '✦'; }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 5vw, 6.5rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.5rem;
+    opacity: 0;
+    animation: slideIn 0.8s 0.4s forwards;
+  }
+  .hero-title .line2 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .hero-title .pill {
+    display: inline-block;
+    background: var(--terracotta);
+    color: white;
+    font-style: italic;
+    font-weight: 400;
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    vertical-align: middle;
+  }
+  .hero-sub {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--mid);
+    max-width: 400px;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: slideIn 0.8s 0.6s forwards;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    opacity: 0;
+    animation: slideIn 0.8s 0.8s forwards;
+  }
+  .btn-primary {
+    background: var(--charcoal);
+    color: white;
+    text-decoration: none;
+    padding: 1rem 2.2rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    border-radius: 2px;
+    transition: background 0.3s;
+  }
+  .btn-primary:hover { background: var(--terracotta); }
+  .btn-ghost {
+    color: var(--mid);
+    text-decoration: none;
+    font-size: 0.82rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.3s;
+  }
+  .btn-ghost:hover { color: var(--charcoal); }
+  .btn-ghost::after { content: '→'; }
+
+  .hero-badges {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 4rem;
+    padding-top: 3rem;
+    border-top: 1px solid rgba(42,36,32,0.1);
+    opacity: 0;
+    animation: slideIn 0.8s 1s forwards;
+  }
+  .badge {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .badge-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--blush);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.9rem;
+  }
+  .badge-text { font-size: 0.72rem; color: var(--mid); line-height: 1.4; }
+  .badge-text strong { display: block; color: var(--charcoal); font-weight: 500; }
+
+  .hero-visual {
+    position: relative;
+    overflow: hidden;
+    background: var(--blush);
+  }
+  .hero-img-main {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    opacity: 0;
+    animation: imgReveal 1.2s 0.3s forwards;
+  }
+  .hero-img-card {
+    position: absolute;
+    bottom: 3rem;
+    left: -2rem;
+    background: white;
+    padding: 1.2rem 1.5rem;
+    border-radius: 4px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+    width: 200px;
+  }
+  .card-stars { color: var(--terracotta); font-size: 0.8rem; margin-bottom: 0.4rem; }
+  .card-text { font-size: 0.72rem; color: var(--mid); line-height: 1.5; }
+  .card-text strong { color: var(--charcoal); display: block; margin-top: 0.4rem; font-weight: 500; }
+  .hero-dot {
+    position: absolute;
+    top: 3rem;
+    right: 3rem;
+    width: 80px;
+    height: 80px;
+    background: var(--terracotta);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 0.6rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1.4;
+  }
+
+  /* SERVICES ROW */
+  .services-strip {
+    background: var(--charcoal);
+    padding: 5rem;
+  }
+  .strip-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 3rem;
+  }
+  .strip-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+  }
+  .strip-card {
+    background: #332d28;
+    padding: 2.5rem;
+    position: relative;
+    transition: background 0.3s;
+  }
+  .strip-card:hover { background: #3d3530; }
+  .strip-icon {
+    font-size: 1.5rem;
+    margin-bottom: 1.2rem;
+    display: block;
+  }
+  .strip-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: white;
+    margin-bottom: 0.8rem;
+  }
+  .strip-desc {
+    font-size: 0.72rem;
+    line-height: 1.8;
+    color: #8a7d76;
+  }
+  .strip-price {
+    margin-top: 1.5rem;
+    font-size: 0.72rem;
+    color: var(--terracotta);
+    font-weight: 500;
+  }
+
+  /* ABOUT SPLIT */
+  .about-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 70vh;
+  }
+  .about-img-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px;
+  }
+  .about-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .about-text-wrap {
+    padding: 6rem 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: var(--warm-white);
+  }
+  .about-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 1.5rem;
+  }
+  .about-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3vw, 3.5rem);
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+  .about-heading em { font-style: italic; color: var(--terracotta); }
+  .about-body {
+    font-size: 0.82rem;
+    line-height: 1.9;
+    color: var(--mid);
+    margin-bottom: 1.2rem;
+  }
+  .about-list {
+    list-style: none;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  .about-list li {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.78rem;
+    color: var(--charcoal);
+    font-weight: 400;
+  }
+  .about-list li::before {
+    content: '✓';
+    width: 22px;
+    height: 22px;
+    background: var(--blush);
+    color: var(--terracotta-dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+    flex-shrink: 0;
+  }
+
+  /* GALLERY MASONRY */
+  .gallery-section {
+    padding: 7rem 5rem;
+    background: var(--cream);
+  }
+  .gallery-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+  }
+  .gallery-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3vw, 3rem);
+    line-height: 1.1;
+  }
+  .gallery-heading em { font-style: italic; color: var(--terracotta); }
+  .gallery-link {
+    color: var(--terracotta);
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+  }
+  .gallery-cell { overflow: hidden; border-radius: 3px; aspect-ratio: 4/5; }
+  .gallery-cell img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    transition: transform 0.5s ease;
+  }
+  .gallery-cell:hover img { transform: scale(1.06); }
+
+  /* TESTIMONIALS */
+  .testimonials {
+    background: var(--blush);
+    padding: 6rem 5rem;
+  }
+  .testi-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--terracotta-dark);
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+  .testi-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3vw, 3rem);
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+  .testi-heading em { font-style: italic; color: var(--terracotta-dark); }
+  .testi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+  .testi-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 4px;
+  }
+  .testi-stars { color: var(--terracotta); margin-bottom: 1rem; font-size: 0.85rem; }
+  .testi-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--charcoal);
+    margin-bottom: 1.5rem;
+  }
+  .testi-author { font-size: 0.72rem; font-weight: 500; color: var(--mid); }
+
+  /* BOOKING */
+  .booking {
+    padding: 7rem 5rem;
+    background: var(--warm-white);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+  .book-label {
+    font-size: 0.68rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 1.5rem;
+  }
+  .book-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 3vw, 3.5rem);
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+  }
+  .book-heading em { font-style: italic; color: var(--terracotta); }
+  .book-text {
+    font-size: 0.82rem;
+    line-height: 1.9;
+    color: var(--mid);
+    margin-bottom: 2rem;
+  }
+  .book-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  .book-info-item {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.78rem;
+    color: var(--mid);
+  }
+  .book-info-item span:first-child {
+    font-size: 1.1rem;
+  }
+  .booking-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .field {
+    background: var(--cream);
+    border: 1.5px solid rgba(42,36,32,0.12);
+    color: var(--charcoal);
+    padding: 0.9rem 1.1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.8rem;
+    outline: none;
+    transition: border-color 0.3s;
+    border-radius: 2px;
+    width: 100%;
+  }
+  .field::placeholder { color: var(--light); }
+  .field:focus { border-color: var(--terracotta); }
+  .submit-btn {
+    background: var(--terracotta);
+    color: white;
+    border: none;
+    padding: 1.1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.3s;
+    margin-top: 0.5rem;
+  }
+  .submit-btn:hover { background: var(--terracotta-dark); }
+
+  /* FOOTER */
+  footer {
+    background: var(--charcoal);
+    color: white;
+    padding: 4rem 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .footer-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    color: white;
+  }
+  .footer-logo span { color: var(--terracotta); }
+  .footer-mid {
+    font-size: 0.72rem;
+    color: #8a7d76;
+    text-align: center;
+    line-height: 2;
+  }
+  .footer-credit {
+    font-size: 0.65rem;
+    color: #8a7d76;
+  }
+  .footer-credit a { color: var(--terracotta); text-decoration: none; }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes imgReveal {
+    from { opacity: 0; transform: scale(1.03); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-visual { height: 60vw; }
+    .hero-content { padding: 3rem 2rem 4rem; }
+    .hero-badges { flex-wrap: wrap; }
+    .services-strip { padding: 3rem 1.5rem; }
+    .strip-grid { grid-template-columns: 1fr 1fr; }
+    .about-split { grid-template-columns: 1fr; }
+    .about-img-wrap { height: 50vw; }
+    .about-text-wrap { padding: 3rem 2rem; }
+    .gallery-section { padding: 4rem 1.5rem; }
+    .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+    .gallery-cell:nth-child(1) { grid-column: span 1; grid-row: span 1; }
+    .gallery-cell:nth-child(4) { grid-column: span 1; }
+    .testimonials { padding: 4rem 1.5rem; }
+    .testi-grid { grid-template-columns: 1fr; }
+    .booking { grid-template-columns: 1fr; gap: 3rem; padding: 4rem 1.5rem; }
+    .field-row { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 2rem; text-align: center; padding: 3rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="#" class="nav-logo">Suda<span>·</span>Salon</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#gallery">Gallery</a></li>
+    <li><a href="#booking" class="nav-btn">Book Now</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-tag">Now Accepting New Clients</div>
+    <h1 class="hero-title">
+      Your hair,<br>
+      <span class="line2"><em class="pill">reimagined.</em></span>
+    </h1>
+    <p class="hero-sub">Suda Salon is a boutique hair studio in Chilliwack, BC — where expert colourists and stylists help you feel exactly like yourself, only better.</p>
+    <div class="hero-actions">
+      <a href="#booking" class="btn-primary">Book Appointment</a>
+      <a href="#gallery" class="btn-ghost">See our work</a>
+    </div>
+
+  </div>
+  <div class="hero-visual">
+    <img src="https://raw.githubusercontent.com/StackwellDigital/demosite-salon/main/daniel-KMvUcGanzPc-unsplash.jpg" alt="Suda Salon" class="hero-img-main">
+
+  </div>
+</section>
+
+<section class="services-strip" id="services">
+  <div class="strip-label">What We Do</div>
+  <div class="strip-grid">
+    <div class="strip-card reveal">
+      <span class="strip-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--terracotta)"><path d="M6 3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3z"/><path d="M8 6v12"/><path d="M16 6v12"/><path d="M5 20h14"/><path d="M12 6v12"/></svg>
+      </span>
+      <div class="strip-name">Cuts & Styling</div>
+      <p class="strip-desc">Precision cuts tailored to your face shape, texture, and lifestyle. Every time.</p>
+      <div class="strip-price">From $80</div>
+    </div>
+    <div class="strip-card reveal">
+      <span class="strip-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--terracotta)"><circle cx="12" cy="12" r="9"/><path d="M12 3a4.5 4.5 0 0 0 0 9 4.5 4.5 0 0 0 0-9"/><path d="M3.6 15h16.8"/></svg>
+      </span>
+      <div class="strip-name">Colour & Balayage</div>
+      <p class="strip-desc">Sun-kissed, bold, or natural — our colourists make your vision a reality.</p>
+      <div class="strip-price">From $135</div>
+    </div>
+    <div class="strip-card reveal">
+      <span class="strip-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--terracotta)"><path d="M12 22c4 0 7-3.5 7-7 0-4-3-8-7-11C8 7 5 11 5 15c0 3.5 3 7 7 7z"/><path d="M12 22V11"/><path d="M9 14l3-3 3 3"/></svg>
+      </span>
+      <div class="strip-name">Treatments</div>
+      <p class="strip-desc">Keratin, deep conditioning, and scalp health treatments for stronger, healthier hair.</p>
+      <div class="strip-price">From $60</div>
+    </div>
+    <div class="strip-card reveal">
+      <span class="strip-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--terracotta)"><path d="M12 2l1.5 4.5H18l-3.75 2.75L15.75 14 12 11.25 8.25 14l1.5-4.75L6 6.5h4.5L12 2z"/><path d="M5 20h14"/><path d="M8 17c0 1.7 1.8 3 4 3s4-1.3 4-3"/></svg>
+      </span>
+      <div class="strip-name">Bridal & Events</div>
+      <p class="strip-desc">Trials, day-of styling, and full bridal party packages. Your day, perfected.</p>
+      <div class="strip-price">From $165</div>
+    </div>
+  </div>
+</section>
+
+<section class="about-split" id="about">
+  <div class="about-img-wrap">
+    <img src="https://raw.githubusercontent.com/StackwellDigital/demosite-salon/main/hayley-kim-studios-sRSRuxkOuzI-unsplash.jpg" alt="Stylist">
+    <img src="https://raw.githubusercontent.com/StackwellDigital/demosite-salon/main/benyamin-bohlouli-_C-S7LqxHPw-unsplash.jpg" alt="Studio">
+  </div>
+  <div class="about-text-wrap">
+    <div class="about-label reveal">About Suda Salon</div>
+    <h2 class="about-heading reveal">Built on <em>trust</em>,<br>driven by craft.</h2>
+    <p class="about-body reveal">We opened Suda Salon because we believed Chilliwack deserved a salon that puts genuine skill and client experience above everything else. No upselling. No rushed appointments. Just great hair.</p>
+    <p class="about-body reveal">Our team of talented stylists each bring a unique specialty — from precision cuts to editorial colour — and collaborate constantly to keep each other sharp.</p>
+    <ul class="about-list reveal">
+      <li>Certified Redken & Wella colourists</li>
+      <li>Complimentary consultations for new clients</li>
+      <li>Paraben-free and cruelty-free product lines</li>
+      <li>Flexible booking — online or by phone</li>
+    </ul>
+  </div>
+</section>
+
+<section class="gallery-section" id="gallery">
+  <div class="gallery-header reveal">
+    <h2 class="gallery-heading">Recent <em>Work</em></h2>
+    <a href="#booking" class="gallery-link">Book a service →</a>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-cell"><img src="https://raw.githubusercontent.com/StackwellDigital/demosite-salon/main/fahrad-norouzi-Udy1IKvjeJU-unsplash.jpg" alt=""></div>
+    <div class="gallery-cell"><img src="https://raw.githubusercontent.com/StackwellDigital/demosite-salon/main/angelo-pantazis-uIyzZCdCnWc-unsplash.jpg" alt=""></div>
+    <div class="gallery-cell"><img src="https://raw.githubusercontent.com/StackwellDigital/demosite-salon/main/engin-akyurt-Ix4D4-8cQUU-unsplash.jpg" alt=""></div>
+    <div class="gallery-cell"><img src="https://raw.githubusercontent.com/StackwellDigital/demosite-salon/main/ramon-benitez-netaAK35IUc-unsplash.jpg" alt=""></div>
+    <div class="gallery-cell"><img src="https://raw.githubusercontent.com/StackwellDigital/demosite-salon/main/jessie-dee-dabrowski-www-jessiedee-net-W6cwaL7PMSw-unsplash.jpg" alt=""></div>
+    <div class="gallery-cell"><img src="https://raw.githubusercontent.com/StackwellDigital/demosite-salon/main/jessie-dee-dabrowski-www-jessiedee-net-TETR8YLSqt4-unsplash.jpg" alt=""></div>
+  </div>
+</section>
+
+<section class="testimonials">
+  <div class="testi-label reveal">Client Love</div>
+  <h2 class="testi-heading reveal">What our clients <em>say</em></h2>
+  <div class="testi-grid">
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"I've been going to Suda Salon for two years and I'd never switch. They actually listen to what you want."</p>
+      <div class="testi-author">— Jessica T. · Regular client since 2022</div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"Best balayage I've ever had. I get compliments constantly. Worth every penny."</p>
+      <div class="testi-author">— Megan R. · New client, Oct 2024</div>
+    </div>
+    <div class="testi-card reveal">
+      <div class="testi-stars">★★★★★</div>
+      <p class="testi-quote">"Booked for bridal hair and it was absolutely flawless. My whole party looked stunning."</p>
+      <div class="testi-author">— Kayla S. · Bridal client</div>
+    </div>
+  </div>
+</section>
+
+<section class="booking" id="booking">
+  <div class="book-left">
+    <div class="book-label reveal">Get In Touch</div>
+    <h2 class="book-heading reveal">Ready to book your<br><em>appointment?</em></h2>
+    <p class="book-text reveal">We typically confirm within a few hours. For same-week appointments, feel free to give us a call.</p>
+    <div class="book-info reveal">
+      <div class="book-info-item"><span>📍</span> 7564 Sapphire Dr, Chilliwack, BC V2R 3A7</div>
+      <div class="book-info-item"><span>📞</span> +1 604-391-0028</div>
+      <div class="book-info-item"><span>🕐</span> Tue–Sat 9am–7pm · Sun 10am–5pm</div>
+    </div>
+  </div>
+  <div class="booking-form">
+    <div class="field-row reveal">
+      <input type="text" class="field" placeholder="First Name">
+      <input type="text" class="field" placeholder="Last Name">
+    </div>
+    <input type="email" class="field reveal" placeholder="Email Address">
+    <input type="tel" class="field reveal" placeholder="Phone Number">
+    <select class="field reveal">
+      <option disabled selected>Select a Service</option>
+      <option>Cut & Style</option>
+      <option>Balayage / Colour</option>
+      <option>Keratin Treatment</option>
+      <option>Bridal Package</option>
+      <option>Scalp Treatment</option>
+      <option>Extensions</option>
+    </select>
+    <div class="field-row reveal">
+      <input type="date" class="field">
+      <select class="field">
+        <option disabled selected>Preferred Time</option>
+        <option>Morning (9am–12pm)</option>
+        <option>Afternoon (12pm–4pm)</option>
+        <option>Evening (4pm–7pm)</option>
+      </select>
+    </div>
+    <textarea class="field reveal" rows="3" placeholder="Any notes or special requests?"></textarea>
+    <button class="submit-btn reveal">Send Booking Request</button>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Suda<span>·</span>Salon</div>
+  <div class="footer-mid">
+    7564 Sapphire Dr, Chilliwack, BC V2R 3A7 · +1 604-391-0028<br>
+    Tue–Sat 9am–7pm · Sun 10am–5pm
+  </div>
+  <div class="footer-credit">Website by <a href="https://stackwell.digital">Stackwell.Digital</a></div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  const reveals = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
